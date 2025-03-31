@@ -1,5 +1,5 @@
 {
-  "name": "my-vue-app",
+  "name": "jiggly-symbols",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,12 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^6.2.0"
+    "prettier": "^3.5.3",
+    "vite": "^6.2.3"
+  },
+  "dependencies": {
+    "charmingjs": "^0.0.16",
+    "d3": "^7.9.0",
+    "flubber": "^0.4.2"
   }
 }
