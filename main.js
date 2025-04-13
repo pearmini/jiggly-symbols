@@ -1,3 +1,5 @@
 import {render} from "./render.js";
 
-render(document.getElementById("app"));
+const seed = process.env.NODE_ENV === "development" ? 1744570991909 : Date.now();
+
+document.getElementById("app").appendChild(render({seed}));
