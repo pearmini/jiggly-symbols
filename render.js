@@ -121,7 +121,7 @@ function symbol({shapes, fromX, fromY, toX, toY, fromColorIndex, toColorIndex, f
       {
         transform: `translate(${i * toX},${i * toY})`,
         duration: 1000,
-        delay: i * 20,
+        delay: i * 40,
         ease: d3.easeElastic,
       },
     ],
@@ -136,10 +136,10 @@ function symbol({shapes, fromX, fromY, toX, toY, fromColorIndex, toColorIndex, f
           transition: (_, i) => [
             {
               fill: color(toColorIndex)(d.r),
-              duration: 500,
-              delay: i * 20,
+              duration: 1000,
+              delay: i * 40,
             },
-            {d: path, duration: 500, delay: 500 + i * 20},
+            {d: path, duration: 1000, delay: 1000 + i * 40},
           ],
         }),
       ];
@@ -147,11 +147,10 @@ function symbol({shapes, fromX, fromY, toX, toY, fromColorIndex, toColorIndex, f
   });
 }
 
-export function render({seed} = {}) {
+function sketch({seed, width, height}) {
   const randomInt = seed === undefined ? d3.randomInt : d3.randomInt.source(d3.randomLcg(seed));
   const randomUniform = seed === undefined ? d3.randomUniform : d3.randomUniform.source(d3.randomLcg(seed));
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+
   const size = 800;
   const padding = 10;
   const rows = 8;
@@ -161,7 +160,7 @@ export function render({seed} = {}) {
   const symbols = createSymbols(cells, {randomInt, randomUniform});
   const data = symbols.data();
 
-  function draw({frameCount}) {
+  return ({frameCount}) => {
     symbols.tick({frameCount});
     return [
       cm.svg("g", {
@@ -174,15 +173,20 @@ export function render({seed} = {}) {
         ],
       }),
     ];
-  }
+  };
+}
+
+export function render({seed} = {}) {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
   const app = cm.app({
     loop: true,
-    frameRate: 0.5,
+    frameRate: 0.25,
     width,
     height,
     use: {transition: cm.transition},
-    draw,
+    draw: sketch({seed, width, height}),
   });
 
   return app.render();
